@@ -12,4 +12,4 @@ while True:
     except:
         print("**THERE WAS AN ERROR***\nPLEASE ENTER NUMBERS ONLY")
 
-main_menu = Menu_Options.Main_Menu(income)s
+main_menu = Menu_Options.Main_Menu()

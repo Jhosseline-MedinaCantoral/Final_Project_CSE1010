@@ -5,7 +5,7 @@ class Menu_Options:
         self.file_exists = False
 
 #----------------------------------------------------------------------------#
-    def Add_Expense_Type(self):
+    def Add_Expense_Type(self): # Jhoss
         try:
             with open("expense_file.txt", "r") as f:
                 self.file_exists = True
@@ -45,7 +45,7 @@ class Menu_Options:
                 file_exists = True
 
 #----------------------------------------------------------------------------#  
-    def Add_Expense(self):       
+    def Add_Expense(self):    # Yijia   
         try:
             with open("expenses_file.txt", 'r') as expenses_file:
                 find_category = (expenses_file.readlines())
@@ -128,7 +128,14 @@ class Menu_Options:
         return sum(self.expenses_dict.values())
 
   #----------------------------------------------------------------------------#  
-    def See_Expenses(self):
+    def See_Expenses(self): #Yijia
+        try:
+            with open("expense_file.txt", "r") as f:
+                self.file_exists = True
+        except:
+            print("No save file found. Returning to menu.")
+            return
+
         """Prints sorted or unsorted details to screen (not file)."""
         if not self.expenses_dict:
             print(f"No {self.expense_type} expenses recorded.")
@@ -155,29 +162,12 @@ class Menu_Options:
             print(f"{i}. {name} - ${cost:.2f}")
 
 #----------------------------------------------------------------------------#
-    def delete_expense(self):
+    def delete_expense(self):   #Emmanuel
         try:
-            with open("expenses_file.txt", 'r') as expenses_file:
-                find_category = (expenses_file.readlines())
-                print("Please choose from the following categories:")
-                categories = []
-
-            for line in find_category[:]:
-                if line.strip().endswith(":"):
-                    category = line.strip().rstrip(":")
-                    print(f" {category}")
-                while True:
-                    try: 
-                        self.expense_type = input("Please enter the category you want to add expenses to (as listed): ")
-                        if self.expense_type not in categories:
-                            raise ValueError
-                        break
-                    except:
-                        print("That category was not found. Please try again.\n")
-                
+            with open("expense_file.txt", "r") as f:
+                self.file_exists = True
         except:
-            print("No save file found. Returning to menu")
-            return
+            print("No save file found. Returning to menu.")
 
          # NEW METHOD: DELETE AN EXPENSE
         if len(self.expenses_dict) == 0:
@@ -204,5 +194,32 @@ class Menu_Options:
         
         #MAKE SURE THAT CODE DELETS THE EXPENSES FROM THE EXPENESES_FILE AS WELL
 
-                   
+#----------------------------------------------------------------------------#
+    def delete_expense(self):   #Victoria
+        '''Delete a specific expense from the budget category'''
+        if not self.type_expense_dict:
+            print(f"No expenses found for {self.expense_type}.")
+            return
+        
+        print(f"\nCurrent expenses for {self.expense_type}:")
+        for i, (expense_type, individual_expense) in enumerate(self.type_expense_dict.items(), 1):
+            print(f"{i}. {expense_type}: ${individual_expense:.2f}")
+        
+        while True:
+            try:
+                choice = input("\nEnter the name of the expense you want to delete (or type 'cancel' to exit): ")
+                if choice.lower() == 'cancel':
+                    print("Deletion cancelled.")
+                    return
+                
+                if choice in self.expenses_dict:
+                    deleted_amount = self.expenses_dict[choice]
+                    del self.expenses_dict[choice]
+                    print(f"Successfully deleted '{choice}' with amount ${deleted_amount:.2f} from {self.expense_type}.")
+                    return
+                else:
+                    print(f"Expense '{choice}' not found. Please enter a valid expense name.")
+            except Exception as e:
+                print(f"**THERE WAS AN ERROR**\nError: {e}")
 
+             #MAKE SURE THAT CODE DELETES THE EXPENSES FROM THE EXPENESES_FILE AS WELL
