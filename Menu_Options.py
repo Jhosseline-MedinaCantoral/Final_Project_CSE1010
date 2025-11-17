@@ -105,18 +105,16 @@ class Menu_Options:
                     print(f"Added → {name}: ${cost:.2f}")
                     break
 
-                except ValueError as e:
-                    print(f"! {e}")
+                except ValueError:
+                    print("**ERROR**\nPlease enter a valid name and cost (e.g. 'item 50.00')")
 
         # after all expenses entered → write to file immediately
         """Write expense data to a file named after the category."""
         with open("expenses_file.txt", "r") as expenses_file:
-            find_category = expenses_file.readlines()
-    
-        for index, line in enumerate(find_category):
-            if line.strip().endswith(":"):
-                find_category.insert(index+1, "2 New info here\n")
-            
+            find_category = expenses_file.readlines()   
+            for index, line in enumerate(find_category):
+                if line.strip().endswith(":"):
+                    find_category.insert(index+1, "2 New info here\n")            
 
         with open("expenses_file.txt", "w") as expenses_file:
             for name, cost in self.expenses_dict.items():                      
@@ -155,3 +153,56 @@ class Menu_Options:
 
         for i, (name, cost) in enumerate(sorted_items, start=1):
             print(f"{i}. {name} - ${cost:.2f}")
+
+#----------------------------------------------------------------------------#
+    def delete_expense(self):
+        try:
+            with open("expenses_file.txt", 'r') as expenses_file:
+                find_category = (expenses_file.readlines())
+                print("Please choose from the following categories:")
+                categories = []
+
+            for line in find_category[:]:
+                if line.strip().endswith(":"):
+                    category = line.strip().rstrip(":")
+                    print(f" {category}")
+                while True:
+                    try: 
+                        self.expense_type = input("Please enter the category you want to add expenses to (as listed): ")
+                        if self.expense_type not in categories:
+                            raise ValueError
+                        break
+                    except:
+                        print("That category was not found. Please try again.\n")
+                
+        except:
+            print("No save file found. Returning to menu")
+            return
+
+         # NEW METHOD: DELETE AN EXPENSE
+        if len(self.expenses_dict) == 0:
+            print("\nThere are no expenses to delete.")
+            return
+
+        print(f"\nExpenses for {self.expense_type}:")
+        expense_items = list(self.expenses_dict.items())
+
+        for i, (item, cost) in enumerate(expense_items, 1):
+            print(f"{i}. {item}: ${cost:.2f}")
+
+        try:
+            choice = int(input("Enter the number of the expense to delete: ")) - 1
+
+            if 0 <= choice < len(expense_items):
+                item_name = expense_items[choice][0]
+                del self.expenses_dict[item_name]
+                print(f"\nDeleted '{item_name}' successfully!\n")
+            else:
+                print("Invalid choice.")
+        except:
+            print("Please enter a valid number.")
+        
+        #MAKE SURE THAT CODE DELETS THE EXPENSES FROM THE EXPENESES_FILE AS WELL
+
+                   
+
