@@ -1,0 +1,33 @@
+
+def delete_expense(self):
+        """Delete a specific expense from the budget category"""
+        if not self.type_expense_dict:
+            print(f"No expenses found for {self.expense_type}.")
+            return
+        
+        print(f"\nCurrent expenses for {self.expense_type}:")
+        for i, (expense_type, individual_expense) in enumerate(self.type_expense_dict.items(), 1):
+            print(f"{i}. {expense_type}: ${individual_expense:.2f}")
+        
+        while True:
+            try:
+                choice = input("\nEnter the name of the expense you want to delete (or type 'cancel' to exit): ")
+                if choice.lower() == 'cancel':
+                    print("Deletion cancelled.")
+                    return
+                
+                if choice in self.type_expense_dict:
+                    deleted_amount = self.type_expense_dict[choice]
+                    del self.type_expense_dict[choice]
+                    print(f"Successfully deleted '{choice}' with amount ${deleted_amount:.2f} from {self.expense_type}.")
+                    return
+                else:
+                    print(f"Expense '{choice}' not found. Please enter a valid expense name.")
+            except Exception as e:
+                print(f"**THERE WAS AN ERROR**\nError: {e}")
+
+    def write_to_file(self):
+        with open("data.txt", "a") as data:
+            data.write(self.expense_type)
+            data.write("\n")
+            for expense_type, individual_expense in self.type_expense_dict.items():
