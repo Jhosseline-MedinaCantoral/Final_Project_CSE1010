@@ -1,8 +1,9 @@
 class Menu_Options:
 
-    def __init__(self):
-        self.expenses_dict = {}      # dictionary required by project instructions
-        self.file_exists = False
+    
+ def __init__(self):
+     self.expenses_dict = {}      # dictionary required by project instructions
+     self.file_exists = False
 
 #----------------------------------------------------------------------------#
     def Add_Expense_Type(self): # Jhoss
