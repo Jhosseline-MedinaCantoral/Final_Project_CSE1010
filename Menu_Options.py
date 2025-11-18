@@ -163,7 +163,7 @@ class Menu_Options:
             print(f"{i}. {name} - ${cost:.2f}")
 
 #----------------------------------------------------------------------------#
-    def delete_expense(self):   #Emmanuel
+    def delete_expense_category(self):   #Emmanuel
         try:
             with open("expense_file.txt", "r") as f:
                 self.file_exists = True
