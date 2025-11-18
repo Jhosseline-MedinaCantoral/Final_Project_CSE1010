@@ -45,7 +45,7 @@ class Menu_Options:
                 file_exists = True
 
 #----------------------------------------------------------------------------#  
-    def Add_Expense(self):    # Yijia   
+    def Add_Expense(self):    # Yijia & Jhoss
         try:
             with open("expenses_file.txt", 'r') as expenses_file:
                 find_category = (expenses_file.readlines())
