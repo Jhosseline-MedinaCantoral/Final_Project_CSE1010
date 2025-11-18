@@ -1,7 +1,7 @@
 class Menu_Options:
 
     
- def __init__(self):
+    def __init__(self):
      self.expenses_dict = {}      # dictionary required by project instructions
      self.file_exists = False
 
