@@ -1,33 +1,74 @@
 
 def delete_expense(self):
-        """Delete a specific expense from the budget category"""
-        if not self.type_expense_dict:
-            print(f"No expenses found for {self.expense_type}.")
-            return
-        
-        print(f"\nCurrent expenses for {self.expense_type}:")
-        for i, (expense_type, individual_expense) in enumerate(self.type_expense_dict.items(), 1):
-            print(f"{i}. {expense_type}: ${individual_expense:.2f}")
-        
-        while True:
-            try:
-                choice = input("\nEnter the name of the expense you want to delete (or type 'cancel' to exit): ")
-                if choice.lower() == 'cancel':
-                    print("Deletion cancelled.")
-                    return
+    """Delete a specific expense from the budget category"""
+    # Check if there are any expenses to delete
+    if not self.type_expense_dict:
+        print(f"No expenses found for {self.expense_type}.")
+        return
+    
+    # Display all current expenses with numbers
+    print(f"\nCurrent expenses for {self.expense_type}:")
+    for i, (expense_type, individual_expense) in enumerate(self.type_expense_dict.items(), 1):
+        print(f"{i}. {expense_type}: ${individual_expense:.2f}")
+    
+    # Keep asking until user makes a valid choice or cancels
+    while True:
+        try:
+            # Get user input for which expense to delete
+            choice = input("\nEnter the name of the expense you want to delete (or type 'cancel' to exit): ")
+            
+            # Allow user to cancel the operation
+            if choice.lower() == 'cancel':
+                print("Deletion cancelled.")
+                return
+            
+            # Check if the expense exists in the dictionary
+            if choice in self.type_expense_dict:
+                # Store the amount before deleting
+                deleted_amount = self.type_expense_dict[choice]
+                # Remove the expense from the dictionary
+                del self.type_expense_dict[choice]
+                # Confirm deletion to user
+                print(f"Successfully deleted '{choice}' with amount ${deleted_amount:.2f} from {self.expense_type}.")
                 
-                if choice in self.type_expense_dict:
-                    deleted_amount = self.type_expense_dict[choice]
-                    del self.type_expense_dict[choice]
-                    print(f"Successfully deleted '{choice}' with amount ${deleted_amount:.2f} from {self.expense_type}.")
-                    return
-                else:
-                    print(f"Expense '{choice}' not found. Please enter a valid expense name.")
-            except Exception as e:
-                print(f"**THERE WAS AN ERROR**\nError: {e}")
+                # Save changes to both files after deletion
+                self.write_to_file()
+                self.write_to_expenses_file()
+                return
+            else:
+                # If expense not found, show error and try again
+                print(f"Expense '{choice}' not found. Please enter a valid expense name.")
+        except Exception as e:
+            # Handle any unexpected errors
+            print(f"**THERE WAS AN ERROR**\nError: {e}")
 
-    def write_to_file(self):
+def write_to_file(self):
+    """Write expense data to main data file (data.txt)"""
+    # This file stores data in a simple format for the program to read later
+    try:
         with open("data.txt", "a") as data:
+            # Write the expense type (category name)
             data.write(self.expense_type)
             data.write("\n")
+            # Write each expense name and amount
             for expense_type, individual_expense in self.type_expense_dict.items():
+                data.write(f"{expense_type}:{individual_expense:.2f}\n")
+            # Add empty line to separate categories
+            data.write("\n")
+    except Exception as e:
+        print(f"Error writing to data.txt: {e}")
+
+def write_to_expenses_file(self):
+    """Write expense data to readable expenses file (expenses_file.txt)"""
+    # This file is formatted nicely for humans to read
+    try:
+        with open("expenses_file.txt", "a") as expenses:
+            # Write category header
+            expenses.write(f"{self.expense_type}:\n")
+            # Write each expense as a bullet point
+            for expense_type, individual_expense in self.type_expense_dict.items():
+                expenses.write(f"  - {expense_type}: ${individual_expense:.2f}\n")
+            # Add empty line between categories
+            expenses.write("\n")
+    except Exception as e:
+        print(f"Error writing to expenses_file.txt: {e}")
