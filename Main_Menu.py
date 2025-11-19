@@ -1,3 +1,4 @@
+import tkinter as tk
 from Menu_Options import Menu_Options_Class
 import os
 os.system('cls' if os.name == 'nt' else 'clear')
@@ -12,8 +13,10 @@ while True:
         break
     except:
         print("**THERE WAS AN ERROR***\nPLEASE ENTER NUMBERS ONLY")
+
+
 #katie--------------------------------------------------------------------------
-budget_buddy = Menu_Options_Class()
+budget_buddy = Menu_Options_Class ()
 
 menu = """
 MENU
@@ -39,7 +42,7 @@ while True:
 
     elif option == "3":
         budget_buddy.delete_expense_category()  
-        
+    
     elif option == "4":
         budget_buddy.delete_expense()
 
