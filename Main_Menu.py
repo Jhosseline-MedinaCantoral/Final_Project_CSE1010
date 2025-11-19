@@ -12,11 +12,8 @@ while True:
         break
     except:
         print("**THERE WAS AN ERROR***\nPLEASE ENTER NUMBERS ONLY")
-
-main_menu = Menu_Options.Main_Menu()
-
 #katie--------------------------------------------------------------------------
-budget_buddy = Menu_Options ()
+budget_buddy = Menu_Options_Class()
 
 menu = """
 MENU
@@ -41,11 +38,8 @@ while True:
         budget_buddy.Add_Expense()
 
     elif option == "3":
-        try:
-            budget_buddy.Delete_Expense_Type()  
-        except:
-            print("Delete Expense Type method not found.\n")
-
+        budget_buddy.delete_expense_category()  
+        
     elif option == "4":
         budget_buddy.delete_expense()
 
