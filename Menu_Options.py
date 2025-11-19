@@ -8,7 +8,7 @@ class Menu_Options_Class:
 #----------------------------------------------------------------------------#
     def Add_Expense_Type(self): # Jhoss
         try:
-            with open("expenses_file.txt", "r") as f:
+            with open("expense_file.txt", "r") as f:
                 self.file_exists = True
         except:
             print("No save file found. A new file will be created upon saving expenses.")
@@ -42,8 +42,8 @@ class Menu_Options_Class:
                 print(f"{self.expense_type}:\n")
             
             elif self.file_exists == False:
-                f.write(f"{self.expenses_type}:\n")
-                file_exists = True
+                f.write(f"{self.expense_type}:\n")
+                self.file_exists = True
 
 #----------------------------------------------------------------------------#  
     def Add_Expense(self):    # Yijia & Jhoss
@@ -56,7 +56,8 @@ class Menu_Options_Class:
             for line in find_category[:]:
                 if line.strip().endswith(":"):
                     category = line.strip().rstrip(":")
-                    print(f" {category}")
+                    categories.append(category)
+                    print(f"{category}")
                 while True:
                     try: 
                         self.expense_type = input("Please enter the category you want to add expenses to (as listed): ")
@@ -115,20 +116,15 @@ class Menu_Options_Class:
             find_category = expenses_file.readlines()   
             for index, line in enumerate(find_category):
                 if line.strip().endswith(":"):
-                    find_category.insert(index+1, "2 New info here\n")            
-
+                    for name, cost in self.expenses_dict.items():
+                        find_category.insert(index+1, f"{name} : ${cost:.2f}\n")
+                        
         with open("expenses_file.txt", "w") as expenses_file:
-            for name, cost in self.expenses_dict.items():                      
-                expenses_file.write(f"{name} : ${cost:.2f}\n")
+            expenses_file.write(''.join(find_category))          
 
         print(f"\n✔ Changes saved\n")
 
-
-#----------------------------------------------------------------------------#
-    def get_total(self):
-        return sum(self.expenses_dict.values())
-
-  #----------------------------------------------------------------------------#  
+  #----------------------------------------------------------------------------#  ''
     def See_Expenses(self): #Yijia
         try:
             with open("expense_file.txt", "r") as f:
