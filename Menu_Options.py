@@ -1,4 +1,4 @@
-class Menu_Options:
+class Menu_Options_Class:
 
     
     def __init__(self):
@@ -8,7 +8,7 @@ class Menu_Options:
 #----------------------------------------------------------------------------#
     def Add_Expense_Type(self): # Jhoss
         try:
-            with open("expense_file.txt", "r") as f:
+            with open("expenses_file.txt", "r") as f:
                 self.file_exists = True
         except:
             print("No save file found. A new file will be created upon saving expenses.")
@@ -36,13 +36,13 @@ class Menu_Options:
                 else: 
                     print("Invalid input. Please enter 'Y' for Yes or 'N' for No.")
         
-        with open('expense_file.txt', 'a') as f:
+        with open('expenses_file.txt', 'a') as f:
             
-            if file_exists == True:
+            if self.file_exists == True:
                 print(f"{self.expense_type}:\n")
             
-            elif file_exists == False:
-                f.write(f"{self.expense_type}:\n")
+            elif self.file_exists == False:
+                f.write(f"{self.expenses_type}:\n")
                 file_exists = True
 
 #----------------------------------------------------------------------------#  
