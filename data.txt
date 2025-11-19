@@ -1,0 +1,6 @@
+Groceries:
+  - Milk: $3.50
+  - Bread: $2.25
+
+Entertainment:
+  - Movie: $12.00
